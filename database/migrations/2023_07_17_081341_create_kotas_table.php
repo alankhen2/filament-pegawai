@@ -13,8 +13,10 @@ class CreateKotasTable extends Migration
      */
     public function up()
     {
-        Schema::create('kotas', function (Blueprint $table) {
+        Schema::create('kota', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('provinsi_id')->constrained('provinsi')->onDelete('cascade');
+            $table->string('nama');
             $table->timestamps();
         });
     }

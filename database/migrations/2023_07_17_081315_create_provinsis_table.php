@@ -13,8 +13,10 @@ class CreateProvinsisTable extends Migration
      */
     public function up()
     {
-        Schema::create('provinsis', function (Blueprint $table) {
+        Schema::create('provinsi', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('negara_id')->constrained('negara')->onDelete('cascade');
+            $table->string('nama');
             $table->timestamps();
         });
     }

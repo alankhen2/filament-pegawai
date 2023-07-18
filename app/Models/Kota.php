@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Kota extends Model
 {
     use HasFactory;
+
+    protected $table = 'kota';
+    protected $fillable = ['provinsi_id', 'nama'];
+
+    public function provinsi(){
+        return $this->belongsTo(Provinsi::class);
+    }
+    public function pegawai(){
+        return $this->hasMany(Pegawai::class);
+    }
+
 }

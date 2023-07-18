@@ -13,8 +13,10 @@ class CreateNegarasTable extends Migration
      */
     public function up()
     {
-        Schema::create('negaras', function (Blueprint $table) {
+        Schema::create('negara', function (Blueprint $table) {
             $table->id();
+            $table->char('negara_kode');
+            $table->string('nama');
             $table->timestamps();
         });
     }
