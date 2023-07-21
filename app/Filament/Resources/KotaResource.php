@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KotaResource\Pages;
 use App\Filament\Resources\KotaResource\RelationManagers;
+use App\Filament\Resources\KotaResource\RelationManagers\PegawaiRelationManager;
 use App\Models\Kota;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
@@ -22,6 +23,8 @@ class KotaResource extends Resource
     protected static ?string $model = Kota::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'System Management';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -30,8 +33,11 @@ class KotaResource extends Resource
                 Card::make()
                     ->schema([
                         Select::make('provinsi_id')
-                            ->relationship('provinsi', 'nama'),
+                            ->relationship('provinsi', 'nama')
+                            ->required(),
                         TextInput::make('nama')
+                            ->required()
+                            ->maxLength(255)
                     ])
             ]);
     }
@@ -59,7 +65,7 @@ class KotaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PegawaiRelationManager::class
         ];
     }
 

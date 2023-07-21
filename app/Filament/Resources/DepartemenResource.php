@@ -22,6 +22,8 @@ class DepartemenResource extends Resource
     protected static ?string $model = Departemen::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'System Management';
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -30,6 +32,8 @@ class DepartemenResource extends Resource
                 Card::make()
                     ->schema([
                         TextInput::make('nama')
+                            ->required()
+                            ->maxLength(255)
                     ])
             ]);
     }
@@ -56,7 +60,7 @@ class DepartemenResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PegawaiRelationManager::class
         ];
     }
 

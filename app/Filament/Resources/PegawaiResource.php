@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PegawaiResource\Pages;
 use App\Filament\Resources\PegawaiResource\RelationManagers;
+use App\Filament\Resources\PegawaiResource\Widgets\PegawaiStatsOverview;
 use App\Models\Kota;
 use App\Models\Negara;
 use App\Models\Pegawai;
@@ -38,9 +39,11 @@ class PegawaiResource extends Resource
                             ->label('Negara')
                             ->options(Negara::all()->pluck('nama', 'id')->toArray())
                             ->reactive()
+                            ->required()
                             ->afterStateUpdated(fn(callable $set) => $set('provinsi_id', null)),
                         Select::make('provinsi_id')
                             ->label('Provinsi')
+                            ->required()
                             ->options(function (callable $get){
                                 $negara = Negara::find($get('negara_id'));
                                 if (!$negara){
@@ -59,14 +62,14 @@ class PegawaiResource extends Resource
                                 }
                                 return $provinsi->kota->pluck('nama', 'id');
                             })
-                            ->reactive()
-                            ->afterStateUpdated(fn(callable $set) => $set('kota_id', null)),
+                            ->required()
+                            ->reactive(),
                         Select::make('departemen_id')
                             ->relationship('departemen', 'nama')->required(),
-                        TextInput::make('nama_depan')->required(),
-                        TextInput::make('nama_belakang')->required(),
-                        TextInput::make('alamat')->required(),
-                        TextInput::make('kode_pos')->required(),
+                        TextInput::make('nama_depan')->required()->maxLength(255),
+                        TextInput::make('nama_belakang')->required()->maxLength(255),
+                        TextInput::make('alamat')->required()->maxLength(255),
+                        TextInput::make('kode_pos')->required()->maxLength(5),
                         DatePicker::make('tanggal_lahir')->required(),
                         DatePicker::make('tanggal_masuk')->required(),
                     ])
@@ -99,6 +102,13 @@ class PegawaiResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            PegawaiStatsOverview::class
         ];
     }
 

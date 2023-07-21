@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NegaraResource\Pages;
 use App\Filament\Resources\NegaraResource\RelationManagers;
+use App\Filament\Resources\NegaraResource\RelationManagers\PegawaiRelationManager;
+use App\Filament\Resources\NegaraResource\RelationManagers\ProvinsiRelationManager;
 use App\Models\Negara;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -21,6 +23,8 @@ class NegaraResource extends Resource
     protected static ?string $model = Negara::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'System Management';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -28,8 +32,12 @@ class NegaraResource extends Resource
             ->schema([
                 Card::make()
                     ->schema([
-                        TextInput::make('negara_kode'),
+                        TextInput::make('negara_kode')
+                            ->required()
+                            ->maxLength(3),
                         TextInput::make('nama')
+                            ->required()
+                            ->maxLength(255)
                     ])
             ]);
     }
@@ -57,7 +65,8 @@ class NegaraResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PegawaiRelationManager::class,
+            ProvinsiRelationManager::class
         ];
     }
 

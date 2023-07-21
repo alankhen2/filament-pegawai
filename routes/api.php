@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/pegawai', function (){
+    $pegawai = Pegawai::orderBy('nama_belakang', 'DESC')->get();
+
+    return \App\Http\Resources\PegawaiResource::collection($pegawai);
 });
